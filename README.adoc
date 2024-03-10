@@ -1,5 +1,8 @@
 = The boli-blog.pl downloader
 :toc:
-:toc-placement!:
+:toclevels: 3
+:sectnums:
+
+== Overview
 
 Simple python app that allows downloading all images from a https://boli-blog.pl[boli-blog.pl].
