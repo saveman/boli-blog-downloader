@@ -178,31 +178,12 @@ class DownloaderApp:
 
             image_data = self.__download_image(image_source)
 
-            subset = image_data[0:32]
-
-            ext = ".dat"
-
-            if subset[0:4] == b"\x89PNG":
-                ext = ".png"
-            elif subset[0:10] == b"\xff\xd8\xff\xe0\x00\x10JFIF":
-                ext = ".jpg"
-            elif subset[0:6] == b"GIF89a":
-                ext = ".gif"
-            else:
+            ext = self.__calculate_extension(image_data)
+            if ext is None:
                 self.__logger.debug(
-                    f"Mime unknown: {image_source} from {post_href} bytes {subset}"
+                    f"Mime unknown: {image_source} from {post_href} bytes {image_data[0:32]}"
                 )
-
-            if ext == ".dat":
-                path = urlparse(image_source).path
-                ext = os.path.splitext(path)[1]
-                if len(ext) == 0:
-                    ext = ".dat"
-
-                    if ext == ".dat":
-                        self.__logger.debug(
-                            f"Mime unknown: {image_source} from {post_href} bytes {subset}"
-                        )
+                ext = ".dat"
 
             self.__logger.debug(f"process_post() image extension: {ext}")
 
@@ -215,6 +196,19 @@ class DownloaderApp:
 
             with open(file_path, mode="wb") as image_file:
                 image_file.write(image_data)
+
+    def __calculate_extension(self, image_data: bytes) -> str | None:
+        if len(image_data) < 10:
+            return None
+
+        if image_data[0:4] == b"\x89PNG":
+            return ".png"
+        elif image_data[0:10] == b"\xff\xd8\xff\xe0\x00\x10JFIF":
+            return ".jpg"
+        elif image_data[0:6] == b"GIF89a":
+            return ".gif"
+
+        return None
 
     def __download_root_page(self) -> list[DownloadItem]:
         self.__logger.debug("download_root_page()")
