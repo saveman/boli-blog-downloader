@@ -1,0 +1,20 @@
+[project]
+name = "boli_blog_downloader"
+version = "0.1"
+dependencies = [
+    "requests==2.31.0",
+    "beautifulsoup4==4.12.3",
+]
+
+# [project.optional-dependencies]
+# dev = ["black"]
+
+[build-system]
+requires = ["setuptools"]
+
+[project.scripts]
+boli-blog-downloader = "boli_blog_downloader.downloader:run_downloader"
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = "logging-fstring-interpolation,missing-class-docstring,missing-function-docstring"
