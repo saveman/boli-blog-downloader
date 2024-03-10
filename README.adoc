@@ -6,3 +6,7 @@
 == Overview
 
 Simple python app that allows downloading all images from a https://boli-blog.pl[boli-blog.pl].
+
+== Results
+
+After running the 'boli-blog-downloader.exe' command, the images are stored in `images/` directory, while the `cache` directory contains cached site contents.
